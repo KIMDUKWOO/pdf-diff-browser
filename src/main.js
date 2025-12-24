@@ -1,6 +1,6 @@
 import * as pdfjsLib from "pdfjs-dist";
 import { PDFDocument, rgb } from "pdf-lib";
-import Diff from "diff";
+import * as Diff from "diff";
 
 // ✅ GitHub Pages 안전 worker 경로
 pdfjsLib.GlobalWorkerOptions.workerSrc =
