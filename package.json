@@ -1,0 +1,19 @@
+{
+  "name": "pdf-diff-browser",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^7.2.4"
+  },
+  "dependencies": {
+    "diff": "^8.0.2",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.4.449"
+  }
+}
