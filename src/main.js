@@ -19,8 +19,8 @@ const setStatus = (msg, p = null) => {
 };
 
 // 파일 → ArrayBuffer
-async function fileToArrayBuffer(file) {
-  return await file.arrayBuffer();
+async function fileToUint8Array(file) {
+  return new Uint8Array(await file.arrayBuffer());
 }
 
 // pdf.js로 페이지별 “단어 + 좌표(뷰포트 기준)” 뽑기
@@ -203,8 +203,18 @@ function downloadBytes(bytes, filename) {
 }
 
 $("run").addEventListener("click", async () => {
-  const fileA = $("pdfA").files?.[0];
-  const fileB = $("pdfB").files?.[0];
+const [bytesA, bytesB] = await Promise.all([
+  fileToUint8Array(fileA),
+  fileToUint8Array(fileB),
+]);
+
+// ✅ pdf.js가 버퍼를 detach할 수 있으니, pdf.js에는 "복사본"을 준다
+const pagesA = await extractWordsWithPositions(bytesA.slice(), "PDF1");
+const pagesB = await extractWordsWithPositions(bytesB.slice(), "PDF2");
+
+// ✅ pdf-lib에도 별도 복사본을 준다 (pdf.js 때문에 원본이 안전하지 않을 수 있음)
+const outBytes = await highlightOnPdf(bytesB.slice(), hits);
+
 
   $("log").textContent = "";
   $("prog").value = 0;
